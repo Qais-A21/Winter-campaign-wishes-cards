@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resala AUC — Winter Wish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="wishes-extra.css">
+<link rel="icon" href="assets/logo.jpeg" type="image/jpeg">
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<header class="site-header">
+  <img class="logo" src="assets/logo.jpeg" alt="Resala AUC logo">
+  <div>
+    <h1>Resala AUC</h1>
+    <p>Winter Warmth Campaign ❄</p>
+  </div>
+</header>
+
+<section class="hero" style="padding-bottom:90px">
+  <p class="wish-num" id="wnum"></p>
+  <h2 id="wtitle">Winter Wish</h2>
+  <div class="snowcap" aria-hidden="true"></div>
+</section>
+
+<main>
+  <div class="card" id="card"></div>
+</main>
+
+<footer>Thank you for supporting <strong>Resala AUC</strong> — every wish brings warmth to a child.</footer>
+
+<script src="wishes.js"></script>
+<script src="snow.js"></script>
+<script>
+  var id = Number(new URLSearchParams(location.search).get('id'));
+  var w = window.WISHES.find(function (x) { return x.id === id; });
+  var card = document.getElementById('card');
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+
+  if (!w) {
+    document.getElementById('wtitle').textContent = 'Wish not found';
+    card.appendChild(el('h3', '', 'We could not find that wish'));
+    card.appendChild(el('p', '', 'Please go back and check the number.'));
+  } else {
+    document.title = 'Resala AUC — Wish #' + w.id;
+    document.getElementById('wnum').textContent = 'Wish #' + w.id;
+    document.getElementById('wtitle').textContent = w.name + '’s Winter Wish';
+    card.appendChild(el('h3', '', 'What ' + w.name + ' is hoping for'));
+    var who = el('div', 'who');
+    who.appendChild(el('span', 'chip', w.gender));
+    who.appendChild(el('span', 'chip', w.age + ' old'));
+    card.appendChild(who);
+    var list = el('div', 'wish-list');
+    w.items.forEach(function (it) {
+      var row = el('div', 'wish-item');
+      row.appendChild(el('label', '', it.label));
+      row.appendChild(el('div', 'value', it.item));
+      if (it.size) row.appendChild(el('span', 'size', 'Size: ' + it.size));
+      if (it.color) row.appendChild(el('div', 'color', 'Color: ' + it.color));
+      list.appendChild(row);
+    });
+    card.appendChild(list);
+  }
+  var nav = el('div', 'nav-row');
+  var back = el('a', 'btn', '← Look up another wish'); back.href = 'index.html';
+  nav.appendChild(back);
+  card.appendChild(nav);
+  if (w) card.appendChild(el('p', 'note', 'Sizes are shown as the family wrote them (clothing or shoe size).'));
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resala AUC — Winter Wishes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="wishes-extra.css">
+<link rel="icon" href="assets/logo.jpeg" type="image/jpeg">
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<header class="site-header">
+  <img class="logo" src="assets/logo.jpeg" alt="Resala AUC logo">
+  <div>
+    <h1>Resala AUC</h1>
+    <p>Winter Warmth Campaign ❄</p>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-icons">
+    <img class="floating-icon coat" src="assets/icon-coat.svg" alt="">
+    <img class="floating-icon beanie" src="assets/icon-beanie.svg" alt="">
+    <img class="floating-icon scarf" src="assets/icon-scarf.svg" alt="">
+    <img class="floating-icon mitten" src="assets/icon-mitten.svg" alt="">
+  </div>
+  <h2>Find a Child's Winter Wish</h2>
+  <p class="lead">Every wish has a number. Enter yours to see what a child is hoping for this winter, so you can help make it come true.</p>
+  <span class="badge">Each wish is one warm smile</span>
+  <div class="snowcap" aria-hidden="true"></div>
+</section>
+
+<main>
+  <div class="card lookup">
+    <h3>Enter your wish number</h3>
+    <form id="form" novalidate>
+      <input id="num" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 42" aria-label="Wish number" autofocus>
+      <button class="btn" type="submit">Show my wish</button>
+    </form>
+    <p class="error" id="err" role="alert"></p>
+    <p class="hint" id="hint"></p>
+  </div>
+
+  <div class="supplies-strip">
+    <figure><img src="assets/icon-coat.svg" alt="Coat"><figcaption>Coats</figcaption></figure>
+    <figure><img src="assets/icon-scarf.svg" alt="Scarf"><figcaption>Scarves</figcaption></figure>
+    <figure><img src="assets/icon-beanie.svg" alt="Beanie"><figcaption>Beanies</figcaption></figure>
+    <figure><img src="assets/icon-mitten.svg" alt="Mitten"><figcaption>Mittens</figcaption></figure>
+    <figure><img src="assets/icon-blanket.svg" alt="Blanket"><figcaption>Blankets</figcaption></figure>
+  </div>
+</main>
+
+<footer>Thank you for supporting <strong>Resala AUC</strong> — every wish brings warmth to a child.</footer>
+
+<script src="wishes.js"></script>
+<script src="snow.js"></script>
+<script>
+  var max = window.WISHES.length;
+  document.getElementById('hint').textContent = 'Wish numbers go from 1 to ' + max + '.';
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var raw = document.getElementById('num').value.trim().replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 1632; });
+    var n = Number(raw);
+    if (!/^\d+$/.test(raw) || n < 1 || n > max) {
+      document.getElementById('err').textContent = 'Please enter a number between 1 and ' + max + '.';
+      return;
+    }
+    location.href = 'wish.html?id=' + n;
+  });
+</script>
+</body>
+</html>

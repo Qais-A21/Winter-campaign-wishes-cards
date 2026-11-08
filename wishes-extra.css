@@ -1,0 +1,30 @@
+/* Wish lookup + wish card (added on top of the Resala winter style) */
+.lookup { text-align: center; }
+.lookup form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.lookup input {
+  font: inherit; font-size: 1.4rem; text-align: center; width: 180px; padding: 10px 14px;
+  border: 3px solid var(--navy); border-radius: 14px; background: var(--frost); color: var(--ink);
+}
+.lookup input:focus { outline: 3px solid var(--glow); }
+.btn {
+  font-family: 'Patrick Hand', 'Segoe UI', sans-serif; font-size: 1.2rem; background: var(--navy); color: var(--frost);
+  border: none; border-radius: 999px; padding: 12px 28px; cursor: pointer; text-decoration: none; display: inline-block;
+  box-shadow: 0 4px 0 var(--night); transition: transform .1s ease;
+}
+.btn:hover { background: #163a9e; }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--night); }
+.error { color: var(--red); font-weight: 700; min-height: 1.4em; margin: 14px 0 0; }
+.hint { font-size: .85rem; color: #55627a; margin-top: 10px; }
+
+.wish-num { font-family: 'Patrick Hand', cursive; color: var(--glow); font-size: 1.2rem; margin: 0 0 6px; }
+.who { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+.chip { background: var(--ice); border: 2px solid var(--sky); color: var(--navy); font-weight: 700; border-radius: 999px; padding: 4px 14px; font-size: .9rem; }
+.wish-list { display: grid; gap: 14px; margin-top: 20px; }
+.wish-item { background: var(--frost); border: 2px solid var(--sky); border-radius: 14px; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
+.wish-item label { grid-column: 1 / -1; font-size: .78rem; text-transform: uppercase; letter-spacing: .6px; color: var(--navy); font-weight: 700; }
+.wish-item .value { font-size: 1.15rem; font-weight: 600; text-transform: capitalize; }
+.wish-item .size { background: var(--navy); color: var(--frost); border-radius: 999px; padding: 4px 14px; font-size: .85rem; font-weight: 700; white-space: nowrap; }
+.wish-item .color { grid-column: 1 / -1; color: #55627a; font-size: .95rem; text-transform: capitalize; }
+.nav-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+.note { font-size: .85rem; color: #55627a; text-align: center; margin: 20px 0 0; }
+@media (max-width: 560px) { .lookup input { width: 100%; } .lookup .btn { width: 100%; } }
