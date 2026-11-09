@@ -79,3 +79,18 @@ body.angel footer strong { color: var(--navy); }
 .angel-footer { width: 100%; text-align: center; }
 .angel-footer .credit { text-align: center; padding: 18px 16px 22px; color: #55627a; font-size: .9rem; }
 .angel-footer .credit strong { color: var(--navy); }
+
+/* bigger icons scattered to the corners around the text */
+.icon-col img, .title-row .icon-col img { width: 54px; height: 54px; padding: 8px; border-width: 3px; }
+.steps-row { width: 100%; justify-content: space-between; min-height: 150px; gap: 8px; }
+.steps-row .angel-steps { align-self: center; }
+.icon-col { gap: 0; }
+.title-row { width: 100%; justify-content: space-between; min-height: 120px; }
+.title-row .icon-col:first-child img:nth-child(2) { align-self: flex-start; margin-left: 14px; }
+.title-row .icon-col:last-child img:nth-child(2) { align-self: flex-end; margin-right: 14px; }
+.steps-row .icon-col:first-child img:nth-child(2) { align-self: flex-start; margin-left: 10px; }
+.steps-row .icon-col:last-child img:nth-child(2) { align-self: flex-end; margin-right: 10px; }
+@media (max-width: 420px) {
+  .icon-col img, .title-row .icon-col img { width: 46px; height: 46px; padding: 7px; }
+  .steps-row { min-height: 140px; }
+}
