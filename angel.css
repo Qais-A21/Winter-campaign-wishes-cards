@@ -42,21 +42,24 @@ body.angel #snow { z-index: 5; }
 .angel-steps li { font-weight: 700; text-transform: uppercase; letter-spacing: .5px; font-size: clamp(.95rem, 4vw, 1.15rem); }
 
 .angel-footer { position: relative; z-index: 3; margin-top: auto; }
-.angel-footer .scene { position: relative; height: clamp(120px, 34vw, 190px); pointer-events: none; overflow: hidden;
-  background: url('assets/angel/snow-ground.webp') center bottom / 100% 100% no-repeat; }
-.angel-footer .scene img { position: absolute; bottom: 4px; height: auto; }
-.scene .trees { left: -2%; width: clamp(140px, 40vw, 260px); }
-.scene .snowman { right: 5%; width: clamp(70px, 20vw, 120px); transform-origin: 50% 100%; animation: wave 3.2s ease-in-out infinite; }
-.scene .snowman-lying { right: 28%; width: clamp(60px, 17vw, 100px); bottom: 0; }
+.side { position: fixed; z-index: 1; pointer-events: none; }
+.side img { display: block; height: auto; }
+.side-left { left: 0; top: 0; bottom: 0; width: clamp(90px, 22vw, 320px); }
+.side-right { right: 0; top: 0; bottom: 0; width: clamp(90px, 22vw, 320px); }
+.side .flakes { position: absolute; top: 8%; width: 100%; height: 36%; opacity: .8; background: url('assets/angel/flakes-scatter.webp') center / cover no-repeat; animation: drift 9s ease-in-out infinite; }
+.side-left .flakes { -webkit-mask: linear-gradient(90deg, #000 40%, transparent); mask: linear-gradient(90deg, #000 40%, transparent); }
+.side-right .flakes { -webkit-mask: linear-gradient(270deg, #000 40%, transparent); mask: linear-gradient(270deg, #000 40%, transparent); }
+.side .trees { position: absolute; left: -8px; bottom: 0; width: clamp(120px, 24vw, 300px); max-width: none; }
+.side .snowman { position: absolute; right: 6px; bottom: 8px; width: clamp(80px, 15vw, 190px); max-width: none; transform-origin: 50% 100%; animation: wave 3.2s ease-in-out infinite; }
+.side .snowman-lying { position: absolute; right: 0; bottom: 30%; width: clamp(70px, 14vw, 170px); max-width: none; opacity: .95; }
+.side .beanie-s { position: absolute; left: 8px; bottom: 36%; width: 44%; transform: rotate(-12deg); }
 @keyframes wave { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg) translateY(-3px); } }
-.top-flakes { position: absolute; top: 0; left: 0; right: 0; height: clamp(70px, 22vw, 130px); z-index: 1; pointer-events: none;
-  background: url('assets/angel/flakes-top.webp') center top / 100% 100% no-repeat; }
+@keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+@media (prefers-reduced-motion: reduce) { .side .snowman, .side .flakes { animation: none; } }
+.angel-footer .credit { background: transparent; padding: 18px 16px 22px; position: relative; z-index: 2; text-align: center; color: #55627a; font-size: .9rem; }
+.angel-footer .credit strong { color: var(--navy); }
 .hat { width: 54px; position: absolute; top: -14px; right: -6px; transform: rotate(14deg); }
 .logo-wrap { position: relative; display: inline-block; }
-.float-flakes { position: absolute; left: 0; right: 0; top: 36%; height: 140px; z-index: 1; pointer-events: none; opacity: .75;
-  background: url('assets/angel/flakes-scatter.webp') center / cover no-repeat; animation: drift 9s ease-in-out infinite; }
-@keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
-@media (prefers-reduced-motion: reduce) { .scene .snowman, .float-flakes { animation: none; } }
 .angel-footer .credit { margin-top: -1px; background: #f4faff; padding: 4px 16px 18px; text-align: center; color: #55627a; font-size: .9rem; }
 .angel-footer .credit strong { color: var(--navy); }
 
@@ -76,3 +79,6 @@ body.angel .wish-item { background: #fff; border-color: var(--yellow-deep); }
 body.angel .chip { background: var(--yellow); border-color: var(--yellow-deep); }
 body.angel footer { background: #f4faff; color: #55627a; }
 body.angel footer strong { color: var(--navy); }
+
+.angel-footer .credit { background: none !important; }
+.angel-main { z-index: 2; }
