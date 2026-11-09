@@ -10,9 +10,11 @@
 </head>
 <body class="angel">
 <canvas id="snow" aria-hidden="true"></canvas>
+<div class="top-flakes" aria-hidden="true"></div>
+<div class="float-flakes" aria-hidden="true"></div>
 
 <main class="angel-main">
-  <img class="logo" src="assets/logo.jpeg" alt="Resala AUC logo">
+  <span class="logo-wrap"><img class="logo" src="assets/logo.jpeg" alt="Resala AUC logo"><img class="hat" src="assets/angel/beanie.webp" alt=""></span>
   <h1 class="gift-title">Gift an <span class="script">Angel</span></h1>
   <p style="margin:26px 0 0"><label class="wish-label" for="num">Wish number:</label></p>
   <form id="form" novalidate>
@@ -29,12 +31,10 @@
 </main>
 
 <div class="angel-footer">
-  <div class="hills" aria-hidden="true">
-    <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
-      <path d="M0 70 C 200 20 380 20 560 60 S 900 110 1100 50 S 1350 20 1440 55 V130 H0 Z" fill="#c9e4fa"/>
-      <path d="M0 95 C 240 55 420 60 640 90 S 1020 125 1220 85 S 1380 70 1440 90 V130 H0 Z" fill="#dff1ff"/>
-      <path d="M0 118 C 300 95 560 100 800 115 S 1250 125 1440 108 V130 H0 Z" fill="#f4faff"/>
-    </svg>
+  <div class="scene" aria-hidden="true">
+    <img class="trees" src="assets/angel/trees.webp" alt="">
+    <img class="snowman-lying" src="assets/angel/snowman-lying.webp" alt="">
+    <img class="snowman" src="assets/angel/snowman-wave.webp" alt="">
   </div>
   <div class="credit">Thank you for supporting <strong>Resala AUC</strong></div>
 </div>

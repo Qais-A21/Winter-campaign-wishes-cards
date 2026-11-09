@@ -28,8 +28,7 @@ body.angel #snow { z-index: 5; }
 .angel-main form { margin: 22px auto 0; max-width: 420px; }
 .angel-main input#num {
   width: 100%; font: inherit; font-size: 3rem; font-weight: 700; text-align: center; color: var(--navy);
-  background: var(--yellow); border: 0; border-radius: 10px; padding: 12px 10px; letter-spacing: 3px;
-  box-shadow: 0 0 0 6px rgba(253,232,92,.35); }
+  background: url('assets/angel/yellow-brush.webp') center / 100% 100% no-repeat; border: 0; border-radius: 10px; padding: 16px 10px; letter-spacing: 3px; }
 .angel-main input#num::placeholder { color: rgba(12,44,128,.35); }
 .angel-main input#num:focus { outline: 3px solid var(--navy); outline-offset: 3px; }
 .angel-main .go { width: 100%; margin-top: 18px; font: inherit; font-size: 1.2rem; font-weight: 600; cursor: pointer;
@@ -43,12 +42,26 @@ body.angel #snow { z-index: 5; }
 .angel-steps li { font-weight: 700; text-transform: uppercase; letter-spacing: .5px; font-size: clamp(.95rem, 4vw, 1.15rem); }
 
 .angel-footer { position: relative; z-index: 3; margin-top: auto; }
-.angel-footer .hills { height: 100px; pointer-events: none; }
-.angel-footer .hills svg { width: 100%; height: 100%; display: block; }
-.angel-footer .credit { background: #f4faff; padding: 4px 16px 18px; text-align: center; color: #55627a; font-size: .9rem; }
+.angel-footer .scene { position: relative; height: clamp(120px, 34vw, 190px); pointer-events: none; overflow: hidden;
+  background: url('assets/angel/snow-ground.webp') center bottom / 100% 100% no-repeat; }
+.angel-footer .scene img { position: absolute; bottom: 4px; height: auto; }
+.scene .trees { left: -2%; width: clamp(140px, 40vw, 260px); }
+.scene .snowman { right: 5%; width: clamp(70px, 20vw, 120px); transform-origin: 50% 100%; animation: wave 3.2s ease-in-out infinite; }
+.scene .snowman-lying { right: 28%; width: clamp(60px, 17vw, 100px); bottom: 0; }
+@keyframes wave { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg) translateY(-3px); } }
+.top-flakes { position: absolute; top: 0; left: 0; right: 0; height: clamp(70px, 22vw, 130px); z-index: 1; pointer-events: none;
+  background: url('assets/angel/flakes-top.webp') center top / 100% 100% no-repeat; }
+.hat { width: 54px; position: absolute; top: -14px; right: -6px; transform: rotate(14deg); }
+.logo-wrap { position: relative; display: inline-block; }
+.float-flakes { position: absolute; left: 0; right: 0; top: 36%; height: 140px; z-index: 1; pointer-events: none; opacity: .75;
+  background: url('assets/angel/flakes-scatter.webp') center / cover no-repeat; animation: drift 9s ease-in-out infinite; }
+@keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+@media (prefers-reduced-motion: reduce) { .scene .snowman, .float-flakes { animation: none; } }
+.angel-footer .credit { margin-top: -1px; background: #f4faff; padding: 4px 16px 18px; text-align: center; color: #55627a; font-size: .9rem; }
 .angel-footer .credit strong { color: var(--navy); }
 
 /* ---- wish page (same look) ---- */
+body.angel .site-header, body.angel .hero { position: relative; z-index: 2; }
 body.angel header.site-header { background: transparent; color: var(--navy); box-shadow: none; justify-content: center; }
 body.angel header.site-header p { color: #55627a; }
 body.angel .hero { background: transparent; color: var(--navy); padding: 10px 20px 30px; }
