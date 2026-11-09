@@ -1,5 +1,5 @@
 /* "Gift an Angel" look: icy white card, bold navy title, yellow highlight */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap');
 
 :root { --yellow: #fde85c; --yellow-deep: #f6d62e; }
 
@@ -16,8 +16,8 @@ body.angel #snow { z-index: 5; }
 /* title: GIFT AN + script Angel */
 .gift-title { margin: 0; text-align: center; line-height: 1; font-weight: 700; color: var(--navy);
   font-size: clamp(2.6rem, 11vw, 4.4rem); letter-spacing: 1px; text-transform: none; text-shadow: none; }
-.gift-title .script { font-family: 'Great Vibes', cursive; text-transform: none; font-weight: 400;
-  font-size: 1.15em; margin-left: .15em; display: inline-block; }
+.gift-title .script { font-family: 'Fredoka', 'Segoe UI', system-ui, sans-serif; text-transform: none; font-weight: 700;
+  font-size: 1em; margin-left: .15em; display: inline-block; }
 
 .wish-label { display: inline-block; font-weight: 700; font-size: clamp(1.4rem, 6vw, 2rem); text-transform: uppercase;
   letter-spacing: 1px; color: var(--navy); border-bottom: 4px solid var(--navy); padding-bottom: 2px; margin: 0; }
