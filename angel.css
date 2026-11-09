@@ -15,7 +15,7 @@ body.angel #snow { z-index: 5; }
 
 /* title: GIFT AN + script Angel */
 .gift-title { margin: 0; text-align: center; line-height: 1; font-weight: 700; color: var(--navy);
-  font-size: clamp(2.6rem, 11vw, 4.4rem); letter-spacing: 1px; text-transform: uppercase; text-shadow: none; }
+  font-size: clamp(2.6rem, 11vw, 4.4rem); letter-spacing: 1px; text-transform: none; text-shadow: none; }
 .gift-title .script { font-family: 'Great Vibes', cursive; text-transform: none; font-weight: 400;
   font-size: 1.15em; margin-left: .15em; display: inline-block; }
 
