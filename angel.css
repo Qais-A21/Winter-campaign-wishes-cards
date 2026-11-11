@@ -68,7 +68,7 @@ body.angel .hero .wish-num { display: inline-block; background: var(--yellow); c
 body.angel main { margin-top: 0; flex: 1; width: 100%; }
 body.angel .card { border-color: var(--navy); box-shadow: 6px 6px 0 var(--yellow), 0 14px 30px rgba(12,44,128,.12); }
 body.angel .card h3 { font-family: 'Fredoka', sans-serif; }
-body.angel .wish-item { background: #fff; border-color: var(--yellow-deep); }
+body.angel .wish-item, body.angel .contact { background: #fff; border-color: var(--yellow-deep); }
 body.angel .chip { background: var(--yellow); border-color: var(--yellow-deep); }
 body.angel footer { background: #f4faff; color: #55627a; }
 body.angel footer strong { color: var(--navy); }

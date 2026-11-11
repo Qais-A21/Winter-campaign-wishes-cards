@@ -28,3 +28,13 @@
 .nav-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
 .note { font-size: .85rem; color: #55627a; text-align: center; margin: 20px 0 0; }
 @media (max-width: 560px) { .lookup input { width: 100%; } .lookup .btn { width: 100%; } }
+
+/* Contact (mother's phone) with copy button */
+.contact { background: var(--frost); border: 2px solid var(--sky); border-radius: 14px; padding: 14px 16px; margin-top: 14px; display: grid; gap: 8px; }
+.contact label { font-size: .78rem; text-transform: uppercase; letter-spacing: .6px; color: var(--navy); font-weight: 700; }
+.contact .mother { font-weight: 600; font-size: 1.05rem; }
+.phone-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.phone-row .phone { font-size: 1.2rem; font-weight: 700; color: var(--navy); text-decoration: none; letter-spacing: .5px; direction: ltr; }
+.copy-btn { font: inherit; font-size: .9rem; font-weight: 700; background: var(--navy); color: var(--frost); border: none; border-radius: 999px; padding: 6px 16px; cursor: pointer; min-width: 90px; }
+.copy-btn:hover { background: #163a9e; }
+.copy-btn.copied { background: #1b7a3d; }

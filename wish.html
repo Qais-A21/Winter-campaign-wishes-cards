@@ -46,6 +46,22 @@
   var card = document.getElementById('card');
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
 
+  function copyText(text, btn) {
+    function done(ok) {
+      btn.textContent = ok ? 'Copied ✓' : 'Copy failed';
+      btn.classList.toggle('copied', ok);
+      setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } else {
+      var t = document.createElement('textarea'); t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(t); done(ok);
+    }
+  }
+
   if (!w) {
     document.getElementById('wtitle').textContent = 'Wish not found';
     card.appendChild(el('h3', '', 'We could not find that wish'));
@@ -69,6 +85,27 @@
       list.appendChild(row);
     });
     card.appendChild(list);
+    if (w.contact && w.contact.phones && w.contact.phones.length) {
+      var box = el('div', 'contact');
+      box.appendChild(el('label', '', 'Contact'));
+      if (w.contact.mother) {
+        var mn = el('div', 'mother', 'Mother: ' + w.contact.mother);
+        mn.setAttribute('dir', 'auto');
+        box.appendChild(mn);
+      } else {
+        box.appendChild(el('div', 'mother', 'Mother’s phone'));
+      }
+      w.contact.phones.forEach(function (ph) {
+        var line = el('div', 'phone-row');
+        line.appendChild(el('a', 'phone', ph)).href = 'tel:' + ph;
+        var btn = el('button', 'copy-btn', 'Copy');
+        btn.type = 'button';
+        btn.addEventListener('click', function () { copyText(ph, btn); });
+        line.appendChild(btn);
+        box.appendChild(line);
+      });
+      card.appendChild(box);
+    }
   }
   if (w) card.appendChild(el('p', 'note', 'Sizes are shown as the family wrote them (clothing or shoe size).'));
 </script>
