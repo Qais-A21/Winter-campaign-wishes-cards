@@ -39,12 +39,39 @@
 </div>
 
 <script src="wishes.js"></script>
+<script src="config.js"></script>
 <script src="snow.js"></script>
 <script>
   var id = Number(new URLSearchParams(location.search).get('id'));
   var w = window.WISHES.find(function (x) { return x.id === id; });
   var card = document.getElementById('card');
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+
+  function addConfirm(wishId) {
+    var url = window.CONFIG && window.CONFIG.SCRIPT_URL;
+    if (!url) return;
+    var key = 'confirmed_' + wishId, saved = false;
+    try { saved = localStorage.getItem(key) === '1'; } catch (e) {}
+    var wrap = el('div', 'confirm-wrap');
+    var msg = el('p', 'confirm-msg');
+    var btn = el('button', 'confirm-btn', 'Confirm that you have bought and placed the wish in one of the boxes');
+    btn.type = 'button';
+    function setDone() { btn.disabled = true; btn.textContent = '✓ Confirmed'; msg.textContent = 'Thank you! Your confirmation has been recorded.'; msg.className = 'confirm-msg ok'; }
+    if (saved) setDone();
+    btn.addEventListener('click', function () {
+      btn.disabled = true; msg.textContent = 'Sending…'; msg.className = 'confirm-msg';
+      fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'confirm', id: wishId }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (!j.ok) throw new Error(j.error);
+          try { localStorage.setItem(key, '1'); } catch (e) {}
+          setDone();
+        })
+        .catch(function () { btn.disabled = false; msg.textContent = 'Something went wrong. Please try again.'; msg.className = 'confirm-msg err'; });
+    });
+    wrap.appendChild(btn); wrap.appendChild(msg);
+    card.appendChild(wrap);
+  }
 
   function copyText(text, btn) {
     function done(ok) {
@@ -106,6 +133,7 @@
       });
       card.appendChild(box);
     }
+    addConfirm(w.id);
   }
   if (w) card.appendChild(el('p', 'note', 'Sizes are shown as the family wrote them (clothing or shoe size).'));
 </script>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Winter Wishes — Admin</title>
+<style>
+  :root { --navy:#0c2c80; --ink:#16223b; --muted:#55627a; --line:#d6e3f0; --bg:#f4f8fc; --green:#22c55e; --greenDark:#1b7a3d; --grey:#c3ccd8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--navy); color:#fff; padding:14px 16px; }
+  header h1 { margin:0; font-size:1.2rem; }
+  main { max-width:820px; margin:0 auto; padding:16px; }
+  .login { max-width:320px; margin:60px auto; background:#fff; padding:24px; border-radius:14px; border:1px solid var(--line); }
+  .login input { width:100%; font:inherit; padding:10px; border:2px solid var(--navy); border-radius:10px; margin:10px 0; }
+  button { font:inherit; cursor:pointer; }
+  .primary { background:var(--navy); color:#fff; border:0; border-radius:10px; padding:10px 16px; font-weight:700; width:100%; }
+  .err { color:#c0392b; font-weight:600; min-height:1.3em; margin:6px 0 0; }
+  .stats { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:8px 14px; font-size:.9rem; color:var(--muted); }
+  .stat b { display:block; font-size:1.4rem; color:var(--ink); }
+  .tools { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .tools input { flex:1; min-width:140px; font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:10px; }
+  .tools select, .tools button { font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:12px; margin-bottom:8px; }
+  .row { display:flex; align-items:center; gap:12px; padding:10px 12px; cursor:pointer; }
+  .num { font-weight:700; color:var(--navy); min-width:44px; }
+  .info { flex:1; min-width:0; }
+  .info .name { font-weight:600; }
+  .info .sub { font-size:.8rem; color:var(--muted); }
+  .dot { width:16px; height:16px; border-radius:50%; background:var(--grey); flex:none; }
+  .dot.on { background:var(--green); box-shadow:0 0 0 4px rgba(34,197,94,.25), 0 0 10px 2px rgba(34,197,94,.7); }
+  .col { border:2px solid var(--greenDark); background:#fff; color:var(--greenDark); border-radius:10px; padding:6px 10px; font-weight:700; font-size:.85rem; white-space:nowrap; }
+  .col.done { background:var(--greenDark); color:#fff; }
+  .detail { border-top:1px solid var(--line); padding:10px 12px 12px 68px; font-size:.92rem; }
+  .detail ul { margin:0 0 8px; padding-left:18px; }
+  .detail .contact { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:4px; }
+  .detail .contact b { direction:ltr; }
+  .copy { border:1px solid var(--navy); background:#fff; color:var(--navy); border-radius:999px; padding:2px 12px; font-size:.8rem; font-weight:700; }
+  .nophone { color:#c0392b; font-weight:600; }
+  .empty { text-align:center; color:var(--muted); padding:30px 0; }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<header><h1>Winter Wishes — Admin</h1></header>
+
+<div class="login" id="login">
+  <strong>Admin password</strong>
+  <input id="pw" type="password" autocomplete="current-password" placeholder="Password">
+  <button class="primary" id="go">Open</button>
+  <p class="err" id="lerr" role="alert"></p>
+</div>
+
+<main id="app" class="hidden">
+  <div class="stats">
+    <div class="stat"><b id="sAll">0</b>Wishes</div>
+    <div class="stat"><b id="sConf">0</b>Confirmed</div>
+    <div class="stat"><b id="sCol">0</b>Collected</div>
+  </div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Search number or name">
+    <select id="f">
+      <option value="all">All</option>
+      <option value="conf">Confirmed</option>
+      <option value="notconf">Not confirmed</option>
+      <option value="notcol">Confirmed, not collected</option>
+      <option value="col">Collected</option>
+      <option value="nophone">No contact number</option>
+    </select>
+    <button id="refresh">Refresh</button>
+  </div>
+  <p class="err" id="aerr" role="alert"></p>
+  <div id="list"></div>
+</main>
+
+<script src="wishes.js"></script>
+<script src="config.js"></script>
+<script>
+  var URL_ = window.CONFIG && window.CONFIG.SCRIPT_URL, pw = '', stat_ = {}, open = {};
+  try { pw = sessionStorage.getItem('adminpw') || ''; } catch (e) {}
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+
+  function call(body) {
+    body.password = pw;
+    return fetch(URL_, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); });
+  }
+  function load() {
+    $('aerr').textContent = '';
+    return call({ action: 'list' }).then(function (j) {
+      if (!j.ok) { throw new Error(j.error); }
+      stat_ = {};
+      j.items.forEach(function (it) { stat_[it.id] = it; });
+      $('login').classList.add('hidden'); $('app').classList.remove('hidden');
+      try { sessionStorage.setItem('adminpw', pw); } catch (e) {}
+      render();
+    });
+  }
+  function fmt(iso) { return iso ? new Date(iso).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : ''; }
+  function copy(text, btn) {
+    var done = function (ok) { btn.textContent = ok ? 'Copied ✓' : 'Failed'; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); };
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); }); return; }
+    var t = document.createElement('textarea'); t.value = text; t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select();
+    var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} document.body.removeChild(t); done(ok);
+  }
+  function detail(w) {
+    var d = el('div', 'detail');
+    var ul = el('ul');
+    w.items.forEach(function (it) {
+      ul.appendChild(el('li', '', it.label + ': ' + it.item + (it.color ? ' (' + it.color + ')' : '') + (it.size ? ' — size ' + it.size : '')));
+    });
+    d.appendChild(ul);
+    var c = el('div', 'contact');
+    if (w.contact && w.contact.phones && w.contact.phones.length) {
+      if (w.contact.mother) { var m = el('span', '', 'Mother: ' + w.contact.mother); m.setAttribute('dir', 'auto'); c.appendChild(m); }
+      w.contact.phones.forEach(function (p) {
+        c.appendChild(el('b', '', p));
+        var b = el('button', 'copy', 'Copy'); b.type = 'button';
+        b.addEventListener('click', function () { copy(p, b); });
+        c.appendChild(b);
+      });
+    } else { c.appendChild(el('span', 'nophone', 'No contact number')); }
+    d.appendChild(c);
+    return d;
+  }
+  function render() {
+    var q = $('q').value.trim().toLowerCase(), f = $('f').value, box = $('list');
+    box.textContent = '';
+    var conf = 0, col = 0, shown = 0;
+    window.WISHES.forEach(function (w) {
+      var s = stat_[w.id] || {};
+      if (s.confirmed) conf++; if (s.collected) col++;
+      if (q && String(w.id) !== q && (w.name + ' ' + w.id).toLowerCase().indexOf(q) < 0) return;
+      if (f === 'conf' && !s.confirmed) return;
+      if (f === 'notconf' && s.confirmed) return;
+      if (f === 'notcol' && !(s.confirmed && !s.collected)) return;
+      if (f === 'col' && !s.collected) return;
+      if (f === 'nophone' && w.contact) return;
+      shown++;
+      var card = el('div', 'card'), row = el('div', 'row');
+      var info = el('div', 'info');
+      info.appendChild(el('div', 'name', w.name + ' · ' + w.gender + ', ' + w.age));
+      info.appendChild(el('div', 'sub', s.collected ? 'Collected ' + fmt(s.collected) : s.confirmed ? 'Confirmed ' + fmt(s.confirmed) : 'Not confirmed'));
+      var dot = el('div', 'dot' + (s.confirmed ? ' on' : '')); dot.title = s.confirmed ? 'Confirmed' : 'Not confirmed';
+      var b = el('button', 'col' + (s.collected ? ' done' : ''), s.collected ? '✓ Collected' : 'Mark collected');
+      b.addEventListener('click', function (ev) { ev.stopPropagation(); toggle(w.id, !!s.collected, b); });
+      row.appendChild(el('div', 'num', '#' + w.id)); row.appendChild(info); row.appendChild(dot); row.appendChild(b);
+      card.appendChild(row);
+      if (open[w.id]) card.appendChild(detail(w));
+      row.addEventListener('click', function () { open[w.id] = !open[w.id]; render(); });
+      box.appendChild(card);
+    });
+    if (!shown) box.appendChild(el('div', 'empty', 'Nothing to show.'));
+    $('sAll').textContent = window.WISHES.length; $('sConf').textContent = conf; $('sCol').textContent = col;
+  }
+  function toggle(id, isCollected, btn) {
+    if (isCollected && !confirm('Un-mark wish #' + id + ' as collected?')) return;
+    btn.disabled = true;
+    call({ action: isCollected ? 'uncollect' : 'collect', id: id }).then(function (j) {
+      if (!j.ok) throw new Error(j.error);
+      return load();
+    }).catch(function () { $('aerr').textContent = 'Could not save. Check your connection and try again.'; btn.disabled = false; });
+  }
+  function login() {
+    if (!URL_) { $('lerr').textContent = 'Set SCRIPT_URL in config.js first.'; return; }
+    pw = $('pw').value; $('lerr').textContent = '';
+    load().catch(function (e) { $('lerr').textContent = e.message === 'auth' ? 'Wrong password.' : 'Could not reach the sheet.'; pw = ''; });
+  }
+  $('go').addEventListener('click', login);
+  $('pw').addEventListener('keydown', function (e) { if (e.key === 'Enter') login(); });
+  $('q').addEventListener('input', render); $('f').addEventListener('change', render);
+  $('refresh').addEventListener('click', function () { load().catch(function () { $('aerr').textContent = 'Could not refresh.'; }); });
+  if (URL_ && pw) load().catch(function () { pw = ''; });
+</script>
+</body>
+</html>
