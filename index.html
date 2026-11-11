@@ -19,7 +19,6 @@
     <input id="num" type="text" inputmode="numeric" autocomplete="off" placeholder="000" autofocus>
     <button class="go" type="submit">Reveal the wish</button>
     <p class="error" id="err" role="alert"></p>
-    <p class="hint" id="hint"></p>
   </form>
   <div class="steps-row">
     <div class="icon-col" aria-hidden="true"><img src="assets/icon-coat.svg" alt=""><img src="assets/icon-scarf.svg" alt=""></div>
@@ -43,7 +42,6 @@
 <script src="snow.js"></script>
 <script>
   var max = window.WISHES.length;
-  document.getElementById('hint').textContent = 'Wish numbers go from 1 to ' + max + '.';
   document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault();
     var raw = document.getElementById('num').value.trim().replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 1632; });
