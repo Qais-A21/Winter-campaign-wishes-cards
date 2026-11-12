@@ -96,8 +96,8 @@
   } else {
     document.title = 'Resala AUC — Wish #' + w.id;
     document.getElementById('wnum').textContent = 'Wish #' + w.id;
-    document.getElementById('wtitle').textContent = w.name + '’s Winter Wish';
-    card.appendChild(el('h3', '', 'What ' + w.name + ' is hoping for'));
+    document.getElementById('wtitle').textContent = (w.fullName || w.name) + '’s Winter Wish';
+    card.appendChild(el('h3', '', 'What ' + (w.fullName || w.name) + ' is hoping for'));
     var who = el('div', 'who');
     who.appendChild(el('span', 'chip', w.gender));
     who.appendChild(el('span', 'chip', w.age + ' old'));

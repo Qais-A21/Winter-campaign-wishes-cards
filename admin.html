@@ -133,7 +133,7 @@
     window.WISHES.forEach(function (w) {
       var s = stat_[w.id] || {};
       if (s.confirmed) conf++; if (s.collected) col++;
-      if (q && String(w.id) !== q && (w.name + ' ' + w.id).toLowerCase().indexOf(q) < 0) return;
+      if (q && String(w.id) !== q && ((w.fullName || w.name) + ' ' + w.id).toLowerCase().indexOf(q) < 0) return;
       if (f === 'conf' && !s.confirmed) return;
       if (f === 'notconf' && s.confirmed) return;
       if (f === 'notcol' && !(s.confirmed && !s.collected)) return;
@@ -142,7 +142,7 @@
       shown++;
       var card = el('div', 'card'), row = el('div', 'row');
       var info = el('div', 'info');
-      info.appendChild(el('div', 'name', w.name + ' · ' + w.gender + ', ' + w.age));
+      info.appendChild(el('div', 'name', (w.fullName || w.name) + ' · ' + w.gender + ', ' + w.age));
       info.appendChild(el('div', 'sub', s.collected ? 'Collected ' + fmt(s.collected) : s.confirmed ? 'Confirmed ' + fmt(s.confirmed) : 'Not confirmed'));
       var dot = el('div', 'dot' + (s.confirmed ? ' on' : '')); dot.title = s.confirmed ? 'Confirmed' : 'Not confirmed';
       var b = el('button', 'col' + (s.collected ? ' done' : ''), s.collected ? '✓ Collected' : 'Mark collected');
