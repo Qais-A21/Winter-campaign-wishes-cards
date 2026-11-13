@@ -2739,7 +2739,7 @@ window.WISHES = [
  {
   "id": 98,
   "name": "Ayat",
-  "gender": "Boy",
+  "gender": "Girl",
   "age": "4 years",
   "items": [
    {
